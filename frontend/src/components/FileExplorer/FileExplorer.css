@@ -1,0 +1,9 @@
+.file-explorer-container {
+  padding: 2rem;
+}
+
+.upload-area {
+  border: 2px dashed #ccc;
+  padding: 2rem;
+  text-align: center;
+}
