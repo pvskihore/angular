@@ -14,9 +14,7 @@ const upload = (file, onUploadProgress) => {
 };
 
 const getFiles = () => {
-  // This endpoint is not implemented in the backend yet.
-  // I will just return an empty array for now.
-  return Promise.resolve({ data: [] });
+  return api.get('/documents');
 };
 
 const documentService = {

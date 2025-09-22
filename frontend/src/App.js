@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import authService from './services/auth.service';
 import './App.css';
 
 import Login from './components/Login/Login';
@@ -9,28 +10,76 @@ import Admin from './components/Admin/Admin';
 import Settings from './components/Settings/Settings';
 
 function App() {
+  const [currentUser, setCurrentUser] = useState(undefined);
+
+  useEffect(() => {
+    const user = authService.getCurrentUser();
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, []);
+
+  const logOut = () => {
+    authService.logout();
+    setCurrentUser(undefined);
+  };
+
   return (
     <Router>
-      <div className="App">
-        <nav>
-          <ul>
-            <li><Link to="/">Dashboard</Link></li>
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/explorer">File Explorer</Link></li>
-            <li><Link to="/admin">Admin</Link></li>
-            <li><Link to="/settings">Settings</Link></li>
-          </ul>
+      <div>
+        <nav className="navbar navbar-expand navbar-dark bg-dark">
+          <Link to={"/"} className="navbar-brand">
+            DocMgmt
+          </Link>
+          <div className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <Link to={"/explorer"} className="nav-link">
+                File Explorer
+              </Link>
+            </li>
+
+            {currentUser && currentUser.role === 'ADMIN' && (
+              <li className="nav-item">
+                <Link to={"/admin"} className="nav-link">
+                  Admin
+                </Link>
+              </li>
+            )}
+          </div>
+
+          {currentUser ? (
+            <div className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link to={"/settings"} className="nav-link">
+                  Settings
+                </Link>
+              </li>
+              <li className="nav-item">
+                <a href="/login" className="nav-link" onClick={logOut}>
+                  LogOut
+                </a>
+              </li>
+            </div>
+          ) : (
+            <div className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link to={"/login"} className="nav-link">
+                  Login
+                </Link>
+              </li>
+            </div>
+          )}
         </nav>
 
-        <hr />
-
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/explorer" element={<FileExplorer />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
+        <div className="container mt-3">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/explorer" element={<FileExplorer />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
+        </div>
       </div>
     </Router>
   );

@@ -13,7 +13,7 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    @Value("${APP_JWT_SECRET:bezKoderSecretKeyForDocumentManagementSystem}")
+    @Value("${APP_JWT_SECRET}")
     private String jwtSecret;
 
     @Value("${app.jwtExpirationMs}")

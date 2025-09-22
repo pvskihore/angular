@@ -5,6 +5,7 @@ import com.example.documentmanagement.repository.FolderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,8 +18,6 @@ public class FolderServiceImpl implements FolderService {
     public Folder createFolder(Folder folder) {
         return folderRepository.save(folder);
     }
-
-import java.util.Optional;
 
     @Override
     public Optional<Folder> getFolderById(Long id) {
