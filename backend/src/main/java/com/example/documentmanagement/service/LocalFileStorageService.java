@@ -1,5 +1,7 @@
 package com.example.documentmanagement.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,9 @@ public class LocalFileStorageService implements FileStorageService {
 
     private final Path fileStorageLocation;
 
-    public LocalFileStorageService() {
-        this.fileStorageLocation = Paths.get("uploads").toAbsolutePath().normalize();
+    @Autowired
+    public LocalFileStorageService(@Value("${app.upload-dir}") String uploadDir) {
+        this.fileStorageLocation = Paths.get(uploadDir).toAbsolutePath().normalize();
 
         try {
             Files.createDirectories(this.fileStorageLocation);
