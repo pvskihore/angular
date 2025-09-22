@@ -19,7 +19,6 @@ function Login() {
     authService.signin(username, password).then(
       () => {
         navigate('/');
-        window.location.reload();
       },
       (error) => {
         const resMessage =
